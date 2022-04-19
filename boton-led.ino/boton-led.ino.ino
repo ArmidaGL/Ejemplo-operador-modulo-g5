@@ -33,7 +33,7 @@ void setup() {// Inicio de void setup ()
 void loop() {// Inicio de void loop
   // put your main code here, to run repeatedly:
   dato = digitalRead(BOTON); // LEER EL PIN DEL BOTÓN
-  digitalWrite (LED, dato); // PRENDER O APAGAR EL LED
+  digitalWrite (LED, !dato); // PRENDER O APAGAR EL LED
 }// Fin de void loop
 
-// Funcioes del usuario
+// Funciones del usuario

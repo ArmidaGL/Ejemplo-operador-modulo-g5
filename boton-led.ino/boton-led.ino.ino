@@ -1,4 +1,4 @@
-#include <DHTesp.h>
+//#include <DHTesp.h>
 
 /*
  * ENCENDER UN LED Y PRENDER UN BOTÓN

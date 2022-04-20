@@ -1,5 +1,3 @@
-//#include <DHTesp.h>
-
 /*
  * ENCENDER UN LED Y PRENDER UN BOTÓN
  * Por: Armida González

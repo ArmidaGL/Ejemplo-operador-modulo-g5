@@ -43,6 +43,7 @@ const int BOTON3 = 14; // Sobrecarga de Funcionamiento
 
 const int LEDM = 2; // Refrigeración MANUAL
 const int LEDA = 4; // Refreigeración Automática
+const float TemperaturaAlta = 29;
 
 // Variables
 int dato1;
@@ -91,9 +92,9 @@ void loop() {// Inicio de void loop
   Serial.println(F("°C "));
   
   //Para activar la refrigeración Automática
-  if (t>=29) {
+  if (t>=TemperaturaAlta) {
   digitalWrite (LEDA, HIGH);}
-  if (t<29) {
+  if (t<TemperaturaAlta) {
   digitalWrite (LEDA, LOW);}
   
   //Para activar la refrigeración Manual

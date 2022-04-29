@@ -53,6 +53,8 @@ int dato1;
 int dato2;
 int dato3;
 float t;
+double TiempoNoBloqueante;
+double CambiaTiempo=0;
 
 // Definición de objetos
 
@@ -80,8 +82,6 @@ void setup() {// Inicio de void setup ()
 // Cuerpo del programa - Se ejecuta constamente
 void loop() {// Inicio de void loop
   // put your main code here, to run repeatedly:
-  // Wait 2 seconds between measurements.
-  delay(2000);
   leeSensor();
   leeBotones();
   activaRefrigeraciones();
@@ -92,16 +92,20 @@ void loop() {// Inicio de void loop
  void leeSensor ()
  {
     // Read temperature as Celsius (the default)
-    t = dht.readTemperature();
-
-    // Check if any reads failed and exit early (to try again).
-    if (isnan(t)) {
+    
+    TiempoNoBloqueante= millis();
+    if (TiempoNoBloqueante > CambiaTiempo)
+    {
+      t = dht.readTemperature();
+      if (isnan(t)) { // Check if any reads failed and exit early (to try again).
        Serial.println(F("Failed to read from DHT sensor!"));
        return;
      }
   Serial.print(F("%  Temperature: "));
   Serial.print(t);
   Serial.println(F("°C "));
+  CambiaTiempo=TiempoNoBloqueante+2000;
+ }
  }
 
  void leeBotones ()

@@ -37,13 +37,15 @@
 // Constantes para manejar el DHT11
 #define DHTPIN 12       // Digital pin connected to the DHT sensor
 #define DHTTYPE DHT11   // DHT 11
+#define TemperaturaAlta 28 // Límite de temperatura y que no ocupe memoria
+
 const int BOTON1 = 13; // Manual
 const int BOTON2 = 15; // Alta Demanda
 const int BOTON3 = 14; // Sobrecarga de Funcionamiento
 
 const int LEDM = 2; // Refrigeración MANUAL
 const int LEDA = 4; // Refreigeración Automática
-const float TemperaturaAlta = 29;
+//const float TemperaturaAlta = 28;
 
 // Variables
 int dato1;

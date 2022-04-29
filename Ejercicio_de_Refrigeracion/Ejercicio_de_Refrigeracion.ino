@@ -29,9 +29,10 @@
  *   Leds 4, 2
  *   DHT11 12
  */
+// Cambio de ejercicio de refrigeración para utilizar funciones
 
 // Bibliotecas
-#include "DHT.h" // Incluuir la biblioteca de DHT11
+#include "DHT.h" // Incluir la biblioteca de DHT11
 
 // Constantes
 // Constantes para manejar el DHT11
@@ -51,6 +52,7 @@ const int LEDA = 4; // Refreigeración Automática
 int dato1;
 int dato2;
 int dato3;
+float t;
 
 // Definición de objetos
 
@@ -72,6 +74,7 @@ void setup() {// Inicio de void setup ()
   dato1=0;
   dato2=0;
   dato3=0;
+
 }// Fin de void setup
 
 // Cuerpo del programa - Se ejecuta constamente
@@ -79,36 +82,50 @@ void loop() {// Inicio de void loop
   // put your main code here, to run repeatedly:
   // Wait 2 seconds between measurements.
   delay(2000);
+  leeSensor();
+  leeBotones();
+  activaRefrigeraciones();
+  
+  } // Fin de void loop
 
-  // Read temperature as Celsius (the default)
-  float t = dht.readTemperature();
+// Funcioes del usuario
+ void leeSensor ()
+ {
+    // Read temperature as Celsius (the default)
+    t = dht.readTemperature();
 
-  // Check if any reads failed and exit early (to try again).
-  if (isnan(t)) {
-    Serial.println(F("Failed to read from DHT sensor!"));
-    return;
-  }
-
+    // Check if any reads failed and exit early (to try again).
+    if (isnan(t)) {
+       Serial.println(F("Failed to read from DHT sensor!"));
+       return;
+     }
   Serial.print(F("%  Temperature: "));
   Serial.print(t);
   Serial.println(F("°C "));
-  
-  //Para activar la refrigeración Automática
+ }
+
+ void leeBotones ()
+ {
+  dato1 = digitalRead (BOTON1); //Leer el pin del boton 1 MANUAL
+  dato2 = digitalRead (BOTON2); //Leer el pin del boton 2 ALTA DEMANDA
+  dato3 = digitalRead (BOTON3); //Leer el pin del boton 3 SOBRE CARGA
+ }
+
+ void activaRefrigeraciones ()
+ {
+   //Para activar la refrigeración Automática
   if (t>=TemperaturaAlta) {
   digitalWrite (LEDA, HIGH);}
   if (t<TemperaturaAlta) {
   digitalWrite (LEDA, LOW);}
   
   //Para activar la refrigeración Manual
-  dato1 = digitalRead (BOTON1); //Leer el pin del boton
   digitalWrite (LEDM, !dato1); //Prender el led Refrigeración automática
   Serial.print(F("Dato 1: "));
   Serial.println (dato1);
   delay (200);
    
   // Alta demanda o sobre carga, se activa la refrigeración automática
-  dato2 = digitalRead (BOTON2); //Leer el pin del boton
-  dato3 = digitalRead (BOTON3); //Leer el pin del boton
   if (!dato2 || !dato3) {
       digitalWrite (LEDA, HIGH); //Prender el led refrigeración automática
       Serial.print(F("Dato 2: "));
@@ -116,8 +133,5 @@ void loop() {// Inicio de void loop
       Serial.print(F("Dato 3: "));
       Serial.println (dato3);
       delay (200);
+      }
   }
-}
-// Fin de void loop
-
-// Funcioes del usuario

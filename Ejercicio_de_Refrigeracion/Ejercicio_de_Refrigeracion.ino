@@ -32,13 +32,18 @@
 // Cambio de ejercicio de refrigeración para utilizar funciones
 
 // Bibliotecas
+#include <WiFi.h>  // Biblioteca para el control de WiFi
 #include "DHT.h" // Incluir la biblioteca de DHT11
+
+//Datos de WiFi
+const char* ssid = "CASTILLO";  // Aquí debes poner el nombre de tu red
+const char* password = "YolandaC23";  // Aquí debes poner la contraseña de tu red
 
 // Constantes
 // Constantes para manejar el DHT11
 #define DHTPIN 12       // Digital pin connected to the DHT sensor
 #define DHTTYPE DHT11   // DHT 11
-#define TemperaturaAlta 28 // Límite de temperatura y que no ocupe memoria
+#define TemperaturaAlta 29 // Límite de temperatura y que no ocupe memoria
 
 const int BOTON1 = 13; // Manual
 const int BOTON2 = 15; // Alta Demanda
@@ -57,14 +62,33 @@ double TiempoNoBloqueante;
 double CambiaTiempo=0;
 
 // Definición de objetos
-
+WiFiClient espClient; // Este objeto maneja los datos de conexion WiFi
 DHT dht(DHTPIN, DHTTYPE);   // Objeto para manejar el DHT11
 
 // Condiciones iniciales - Se ejecuta sólo una vez al energizar
+
 void setup() {// Inicio de void setup ()
   // Iniciar comunicación serial
   Serial.begin(115200);
-  Serial.println("Hola, inicié");
+  delay(10);
+  //Se realiza conección a WiFi
+  Serial.println();
+  Serial.println(); 
+  Serial.print("Conectar a ");
+  Serial.println(ssid);
+
+  WiFi.begin(ssid, password); // Esta es la función que realiz la conexión a WiFi
+  while (WiFi.status() != WL_CONNECTED) { // Este bucle espera a que se realice la conexión
+    Serial.print(".");  // Indicador de progreso
+    delay (500);
+  }
+
+ // Cuando se haya logrado la conexión, el programa avanzará, por lo tanto, puede informarse lo siguiente
+  Serial.println();
+  Serial.println("WiFi conectado");
+  Serial.print("Direccion IP: ");
+  Serial.println(WiFi.localIP());
+  
   pinMode (BOTON1, INPUT_PULLUP);//Configurar el pin del boton como entrada //INPUT, OUTPUT
   pinMode (BOTON2, INPUT_PULLUP);//Configurar el pin del boton como entrada //INPUT, OUTPUT
   pinMode (BOTON3, INPUT_PULLUP);//Configurar el pin del boton como entrada //INPUT, OUTPUT
@@ -82,10 +106,11 @@ void setup() {// Inicio de void setup ()
 // Cuerpo del programa - Se ejecuta constamente
 void loop() {// Inicio de void loop
   // put your main code here, to run repeatedly:
+  while (WiFi.status() == WL_CONNECTED) { 
   leeSensor();
   leeBotones();
   activaRefrigeraciones();
-  
+  }
   } // Fin de void loop
 
 // Funcioes del usuario

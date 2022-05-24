@@ -52,7 +52,7 @@ IPAddress server(35,157,221,58);
 // Constantes para manejar el DHT11
 #define DHTPIN 12       // Digital pin connected to the DHT sensor
 #define DHTTYPE DHT11   // DHT 11
-#define TemperaturaAlta 40 // Límite de temperatura y que no ocupe memoria
+#define TemperaturaAlta 30 // Límite de temperatura y que no ocupe memoria
 
 
 const int BOTON1 = 13; // Manual
